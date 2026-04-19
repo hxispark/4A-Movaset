@@ -1,16 +1,3 @@
-# pbl411
+Movaset, an IoT-based movable asset tracking system that utilizes GPS and LoRa technology to enable real-time monitoring of asset locations, provide a mobile-based dashboard for tracking and reviewing asset movement history, and improve efficiency, transparency, and security in campus asset management.
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+However, movable asset management in the campus environment is still largely conducted manually, leading to ineffective monitoring, difficulties in identifying real-time asset locations, lack of transparency in asset usage or borrowing status, and the absence of automatically recorded movement history, which increases the risk of delayed returns and asset loss.
