@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Marker berbentuk lingkaran — dipakai di peta flutter_map
 class AssetMarker extends StatelessWidget {
   final String name;
   final String status;
@@ -14,25 +15,22 @@ class AssetMarker extends StatelessWidget {
 
   Color get _dotColor {
     switch (status) {
-      case 'Aktif':
-        return const Color(0xFF23A55A);
-      case 'Luar Zona':
-        return const Color(0xFFEF4444);
-      default:
-        return const Color(0xFF80848E);
+      case 'Aktif':     return const Color(0xFF23A55A);
+      case 'Luar Zona': return const Color(0xFFEF4444);
+      default:          return const Color(0xFF80848E);
     }
   }
 
   IconData get _icon {
     final n = name.toLowerCase();
     if (n.contains('camera') || n.contains('tripod')) return Icons.videocam_rounded;
-    if (n.contains('drone')) return Icons.flight_rounded;
+    if (n.contains('drone'))                           return Icons.flight_rounded;
     return Icons.devices_other_rounded;
   }
 
   @override
   Widget build(BuildContext context) {
-    final size = isSelected ? 52.0 : 44.0;
+    final size    = isSelected ? 52.0 : 44.0;
     final dotSize = isSelected ? 14.0 : 12.0;
 
     return SizedBox(
@@ -67,7 +65,11 @@ class AssetMarker extends StatelessWidget {
                 ),
               ],
             ),
-            child: Icon(_icon, color: Colors.white, size: isSelected ? 22 : 18),
+            child: Icon(
+              _icon,
+              color: Colors.white,
+              size: isSelected ? 22 : 18,
+            ),
           ),
           Positioned(
             right: 0,

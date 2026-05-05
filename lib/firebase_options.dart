@@ -41,48 +41,53 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDjaooDnbowxr94sb6TlSdc1FBYNR5CC1U',
-    appId: '1:54544562344:web:c7e44d1d0a8008a02c2a9d',
-    messagingSenderId: '54544562344',
-    projectId: 'movaset-f734f',
-    authDomain: 'movaset-f734f.firebaseapp.com',
-    storageBucket: 'movaset-f734f.firebasestorage.app',
-    measurementId: 'G-9S07DWZYY0',
+    apiKey: 'AIzaSyBrUL5QECz8r2FG8B3LIvFIxxs2hMJ24Gc',
+    appId: '1:255032212598:web:a621987b77225430ce3357',
+    messagingSenderId: '255032212598',
+    projectId: 'movaset-23aa4',
+    authDomain: 'movaset-23aa4.firebaseapp.com',
+    databaseURL: 'https://movaset-23aa4-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'movaset-23aa4.firebasestorage.app',
+    measurementId: 'G-531ZSC36K4',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBHIt9QMNMX_u1XAsOOLZBpvQMo3SGpXCw',
-    appId: '1:54544562344:android:a1613a9d6b148c1f2c2a9d',
-    messagingSenderId: '54544562344',
-    projectId: 'movaset-f734f',
-    storageBucket: 'movaset-f734f.firebasestorage.app',
+    apiKey: 'AIzaSyAECRvhvDGi1Oh5wWSpH_mExAdGWo-aFXs',
+    appId: '1:255032212598:android:1cf694c279d424cece3357',
+    messagingSenderId: '255032212598',
+    projectId: 'movaset-23aa4',
+    databaseURL: 'https://movaset-23aa4-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'movaset-23aa4.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyB48X_g-ZDTiRo0SrCK9GZVjmoA2vot8Y8',
-    appId: '1:54544562344:ios:6f28e420634e1ed02c2a9d',
-    messagingSenderId: '54544562344',
-    projectId: 'movaset-f734f',
-    storageBucket: 'movaset-f734f.firebasestorage.app',
+    apiKey: 'AIzaSyCSnWUenF8Vwmv6__yxaGeKhuVEQvPimuw',
+    appId: '1:255032212598:ios:3cc8de0c8a1bdf9fce3357',
+    messagingSenderId: '255032212598',
+    projectId: 'movaset-23aa4',
+    databaseURL: 'https://movaset-23aa4-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'movaset-23aa4.firebasestorage.app',
     iosBundleId: 'com.example.pbl411',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyB48X_g-ZDTiRo0SrCK9GZVjmoA2vot8Y8',
-    appId: '1:54544562344:ios:6f28e420634e1ed02c2a9d',
-    messagingSenderId: '54544562344',
-    projectId: 'movaset-f734f',
-    storageBucket: 'movaset-f734f.firebasestorage.app',
+    apiKey: 'AIzaSyCSnWUenF8Vwmv6__yxaGeKhuVEQvPimuw',
+    appId: '1:255032212598:ios:3cc8de0c8a1bdf9fce3357',
+    messagingSenderId: '255032212598',
+    projectId: 'movaset-23aa4',
+    databaseURL: 'https://movaset-23aa4-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'movaset-23aa4.firebasestorage.app',
     iosBundleId: 'com.example.pbl411',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyDjaooDnbowxr94sb6TlSdc1FBYNR5CC1U',
-    appId: '1:54544562344:web:0c11200a00be83772c2a9d',
-    messagingSenderId: '54544562344',
-    projectId: 'movaset-f734f',
-    authDomain: 'movaset-f734f.firebaseapp.com',
-    storageBucket: 'movaset-f734f.firebasestorage.app',
-    measurementId: 'G-8FM9NZY2QS',
+    apiKey: 'AIzaSyBrUL5QECz8r2FG8B3LIvFIxxs2hMJ24Gc',
+    appId: '1:255032212598:web:40b56dab5c7e033cce3357',
+    messagingSenderId: '255032212598',
+    projectId: 'movaset-23aa4',
+    authDomain: 'movaset-23aa4.firebaseapp.com',
+    databaseURL: 'https://movaset-23aa4-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'movaset-23aa4.firebasestorage.app',
+    measurementId: 'G-PVS9LEYZKP',
   );
 }

@@ -1,100 +1,124 @@
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AssetData {
-  final String id;
+  final String id;           // uuid dari Firestore / doc.id
   final String name;
-  final LatLng latLng;
-  final String status;
-  final int statusColorValue;
+  final LatLng latLng;       // dari collection locations (nanti realtime)
+  final String status;       // "dipinjam" | "tidak"
   final String sumberPeminjaman;
   final String penanggungjawab;
   final String geoFencingArea;
-  final String imagePath;
-  final DateTime? lastUpdated;
+  final String imagePath;    // foto pertama (images[0]) atau fallback
+  final List<String> images; // semua URL foto dari Storage
+  final String description;
+  final String category;
 
   const AssetData({
     required this.id,
     required this.name,
     required this.latLng,
     required this.status,
-    required this.statusColorValue,
     required this.sumberPeminjaman,
     required this.penanggungjawab,
     required this.geoFencingArea,
     required this.imagePath,
-    this.lastUpdated,
+    this.images = const [],
+    this.description = '',
+    this.category = '',
   });
 
-  Color get statusColor => Color(statusColorValue);
-
-  // ─── Parse dari JSON (API / Firestore / mock) ───────────────────────────────
-  factory AssetData.fromJson(Map<String, dynamic> json) {
-    return AssetData(
-      id: json['id']?.toString() ?? '',
-      name: json['name']?.toString() ?? '',
-      latLng: LatLng(
-        (json['lat'] as num).toDouble(),
-        (json['lon'] as num).toDouble(),
-      ),
-      status: json['status']?.toString() ?? 'Offline',
-      statusColorValue: _statusToColor(json['status']?.toString() ?? 'Offline'),
-      sumberPeminjaman: json['sumber_peminjaman']?.toString() ?? '-',
-      penanggungjawab: json['penanggungjawab']?.toString() ?? '-',
-      geoFencingArea: json['geo_fencing_area']?.toString() ?? '-',
-      imagePath: json['image_path']?.toString() ?? '',
-      lastUpdated: json['last_updated'] != null
-          ? DateTime.tryParse(json['last_updated'].toString())
-          : null,
-    );
-  }
-
-  // ─── Buat salinan dengan field tertentu diubah ───────────────────────────────
-  AssetData copyWith({
-    String? id,
-    String? name,
-    LatLng? latLng,
-    String? status,
-    int? statusColorValue,
-    String? sumberPeminjaman,
-    String? penanggungjawab,
-    String? geoFencingArea,
-    String? imagePath,
-    DateTime? lastUpdated,
-  }) {
-    return AssetData(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      latLng: latLng ?? this.latLng,
-      status: status ?? this.status,
-      statusColorValue: statusColorValue ?? _statusToColor(status ?? this.status),
-      sumberPeminjaman: sumberPeminjaman ?? this.sumberPeminjaman,
-      penanggungjawab: penanggungjawab ?? this.penanggungjawab,
-      geoFencingArea: geoFencingArea ?? this.geoFencingArea,
-      imagePath: imagePath ?? this.imagePath,
-      lastUpdated: lastUpdated ?? this.lastUpdated,
-    );
-  }
-
-  // ─── Helper: status string → warna ──────────────────────────────────────────
-  static int _statusToColor(String status) {
+  // Warna status otomatis dari value string
+  Color get statusColor {
     switch (status) {
-      case 'Aktif':
-        return 0xFF1DBF8A;
-      case 'Luar Zona':
-        return 0xFFFF9A2E;
-      default:
-        return 0xFF9AA0B2; // Offline / unknown
+      case 'dipinjam':   return const Color(0xFFFF9A2E);
+      case 'tidak':      return const Color(0xFF1DBF8A);
+      default:           return const Color(0xFF9AA0B2);
     }
   }
 
-  // ─── Label waktu update terakhir ────────────────────────────────────────────
-  String get lastUpdatedLabel {
-    if (lastUpdated == null) return 'Tidak diketahui';
-    final diff = DateTime.now().difference(lastUpdated!);
-    if (diff.inSeconds < 60) return '${diff.inSeconds} detik lalu';
-    if (diff.inMinutes < 60) return '${diff.inMinutes} menit lalu';
-    if (diff.inHours < 24) return '${diff.inHours} jam lalu';
-    return '${diff.inDays} hari lalu';
+  // Masih ada biar widget lama tidak error
+  int get statusColorValue => statusColor.value;
+
+  // Dari Firestore doc — latLng diisi default dulu,
+  // nanti di-update dari collection locations
+  factory AssetData.fromFirestore(DocumentSnapshot doc) {
+    final d = doc.data() as Map<String, dynamic>;
+    final imgs = List<String>.from(d['images'] ?? []);
+    return AssetData(
+      id:                doc.id,
+      name:              d['name']               ?? '',
+      description:       d['description']        ?? '',
+      category:          d['category']           ?? '',
+      status:            d['status']             ?? 'tidak',
+      sumberPeminjaman:  d['sumber_peminjaman']  ?? '',
+      penanggungjawab:   d['penanggung_jawab']   ?? '',
+      geoFencingArea:    d['geo_fencing_area']   ?? '',
+      imagePath:         imgs.isNotEmpty ? imgs.first : '',
+      images:            imgs,
+      latLng:            const LatLng(1.1186, 104.0485), // default, update dari locations
+    );
   }
+
+  Map<String, dynamic> toFirestore() => {
+    'name':               name,
+    'description':        description,
+    'category':           category,
+    'status':             status,
+    'sumber_peminjaman':  sumberPeminjaman,
+    'penanggung_jawab':   penanggungjawab,
+    'geo_fencing_area':   geoFencingArea,
+    'images':             images,
+    'created_at':         FieldValue.serverTimestamp(),
+    'updated_at':         FieldValue.serverTimestamp(),
+    'deleted_at':         null,
+  };
+
+  AssetData copyWith({
+    String?      status,
+    LatLng?      latLng,
+    List<String>? images,
+  }) => AssetData(
+    id:               id,
+    name:             name,
+    description:      description,
+    category:         category,
+    status:           status ?? this.status,
+    sumberPeminjaman: sumberPeminjaman,
+    penanggungjawab:  penanggungjawab,
+    geoFencingArea:   geoFencingArea,
+    imagePath:        images != null && images.isNotEmpty
+                          ? images.first
+                          : imagePath,
+    images:           images ?? this.images,
+    latLng:           latLng ?? this.latLng,
+  );
 }
+
+// Fallback hardcoded — dipakai selama Firestore belum ada data
+// Hapus ini nanti kalau sudah full Firestore
+final List<AssetData> appAssets = [
+  AssetData(
+    id: '01',
+    name: 'Tripod Camera',
+    latLng: const LatLng(1.1192, 104.0488),
+    status: 'tidak',
+    sumberPeminjaman: 'RTF',
+    penanggungjawab: 'Mega',
+    geoFencingArea: 'Gedung Utama',
+    imagePath:
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Leica_Geosystems_TPS1200.jpg/320px-Leica_Geosystems_TPS1200.jpg',
+  ),
+  AssetData(
+    id: '02',
+    name: 'Drones',
+    latLng: const LatLng(1.1155, 104.0510),
+    status: 'dipinjam',
+    sumberPeminjaman: 'Logistik',
+    penanggungjawab: 'Budi',
+    geoFencingArea: 'Area Parkir',
+    imagePath:
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/PNG_transparency_demonstration_1.png/280px-PNG_transparency_demonstration_1.png',
+  ),
+];

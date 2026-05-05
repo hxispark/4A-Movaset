@@ -1,13 +1,14 @@
 {
   "project_info": {
-    "project_number": "54544562344",
-    "project_id": "movaset-f734f",
-    "storage_bucket": "movaset-f734f.firebasestorage.app"
+    "project_number": "255032212598",
+    "firebase_url": "https://movaset-23aa4-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "movaset-23aa4",
+    "storage_bucket": "movaset-23aa4.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:54544562344:android:a1613a9d6b148c1f2c2a9d",
+        "mobilesdk_app_id": "1:255032212598:android:1cf694c279d424cece3357",
         "android_client_info": {
           "package_name": "com.example.pbl411"
         }
@@ -15,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBHIt9QMNMX_u1XAsOOLZBpvQMo3SGpXCw"
+          "current_key": "AIzaSyAECRvhvDGi1Oh5wWSpH_mExAdGWo-aFXs"
         }
       ],
       "services": {
